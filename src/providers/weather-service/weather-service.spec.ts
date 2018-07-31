@@ -1,4 +1,4 @@
-import { BaseUrl, WeatherEndpoint } from "./../constants/api-endpoints";
+import { BASE_URL, WEATHER_ENDPOINT } from "./../constants/api-endpoints";
 import { CurrentWeatherRequest } from "./../../models/request/current-weather-request";
 import { ApiMock } from "./../../mocks/providers/api-mock";
 import { Api } from "./../api/api";
@@ -22,9 +22,7 @@ describe("WeatherService Provider", () => {
 
     it("should get the current weather for the user's current location", () => {
         // arrange
-        var request = new CurrentWeatherRequest();
-        request.lat = "-25.968280";
-        request.lon = "28.125952";
+        var request = new CurrentWeatherRequest("-25.968280", "28.125952");
 
         var response = {
             weather: [
@@ -39,13 +37,13 @@ describe("WeatherService Provider", () => {
             }
         };
         api.response = response;
-        api.url = BaseUrl + "/" + WeatherEndpoint;
+        api.url = BASE_URL + "/" + WEATHER_ENDPOINT;
         api.params = request;
 
         var expectedResult = response;
 
         // act
-        var actualResult = service.GetCurrentWeather(request);
+        var actualResult = service.getCurrentWeather(request);
 
         // assert
         expect(JSON.stringify(expectedResult)).toEqual(

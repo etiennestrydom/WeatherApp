@@ -1,7 +1,9 @@
-import { BaseUrl, WeatherEndpoint } from "./../constants/api-endpoints";
+import { WeatherSingle } from "./../../models/weather-single";
+import { BASE_URL, WEATHER_ENDPOINT } from "./../constants/api-endpoints";
 import { CurrentWeatherRequest } from "../../models/request/current-weather-request";
 import { Api } from "../api/api";
 import { Injectable } from "@angular/core";
+import { Observable } from "../../../node_modules/rxjs/Observable";
 
 @Injectable()
 export class WeatherServiceProvider {
@@ -11,8 +13,8 @@ export class WeatherServiceProvider {
         this._api = api;
     }
 
-    public GetCurrentWeather(request: CurrentWeatherRequest) {
-        let url = BaseUrl + "/" + WeatherEndpoint;
-        return this._api.get(url, request);
+    public getCurrentWeather(request: CurrentWeatherRequest) {
+        let url = BASE_URL + "/" + WEATHER_ENDPOINT;
+        return this._api.get<WeatherSingle>(url, request);
     }
 }

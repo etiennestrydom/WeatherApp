@@ -1,22 +1,31 @@
+import { WeatherSingle } from "./../../models/weather-single";
+import { CurrentWeatherRequest } from "./../../models/request/current-weather-request";
+import { WeatherServiceProvider } from "./../../providers/weather-service/weather-service";
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
-
-/**
- * Generated class for the DashboardPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage } from "ionic-angular";
 
 @IonicPage()
 @Component({
-  selector: "page-dashboard",
-  templateUrl: "dashboard.html"
+    selector: "page-dashboard",
+    templateUrl: "dashboard.html"
 })
 export class DashboardPage {
-  constructor(public navCtrl: NavController) {}
+    _weatherSingle: WeatherSingle;
+    _weatherServiceProvider: WeatherServiceProvider;
 
-  ionViewDidLoad() {
-    console.log("ionViewDidLoad DashboardPage");
-  }
+    constructor(weatherServiceProvider: WeatherServiceProvider) {
+        this._weatherServiceProvider = weatherServiceProvider;
+    }
+
+    ionViewDidLoad() {
+        console.log("ionViewDidLoad DashboardPage");
+        let currentWeatherRequest = new CurrentWeatherRequest("1", "2");
+
+        this._weatherServiceProvider
+            .getCurrentWeather(currentWeatherRequest)
+            .subscribe(weatherSingle => {
+                this._weatherSingle = weatherSingle;
+                console.log(this._weatherSingle.main.temp);
+            });
+    }
 }
