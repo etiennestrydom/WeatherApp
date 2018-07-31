@@ -1,3 +1,4 @@
-<ion-content padding>
-
+<ion-content *ngIf="weatherSingle">
+    <!-- <h2 *ngIf="weatherSingle">{{weatherSingle.main.temp}}</h2> -->
+    <img src="assets/img/{{weatherSingle.weather[0].main}}.png">
 </ion-content>

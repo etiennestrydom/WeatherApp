@@ -1,10 +1,10 @@
-import { WeatherForecastResponse } from "./../../models/response/weather-forecast-response";
-import { WeatherSingle } from "../../models/weather-single";
 import {
     BASE_URL,
     WEATHER_ENDPOINT,
     WEATHER_FORECAST_ENDPOINT
-} from "../constants/api-endpoints";
+} from "../../constants/api-endpoints";
+import { WeatherForecastResponse } from "../../models/response/weather-forecast-response";
+import { WeatherSingle } from "../../models/weather-single";
 import { Api } from "../api/api";
 import { Injectable } from "@angular/core";
 import { Observable } from "../../../node_modules/rxjs/Observable";
