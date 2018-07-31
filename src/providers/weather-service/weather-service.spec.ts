@@ -1,9 +1,9 @@
 import { BASE_URL, WEATHER_ENDPOINT } from "./../constants/api-endpoints";
-import { CurrentWeatherRequest } from "./../../models/request/current-weather-request";
 import { ApiMock } from "./../../mocks/providers/api-mock";
 import { Api } from "./../api/api";
 import { TestBed } from "@angular/core/testing";
 import { WeatherServiceProvider } from "./weather-service";
+import { WeatherRequest } from "../../models/request/weather-request";
 
 describe("WeatherService Provider", () => {
     let service: WeatherServiceProvider;
@@ -22,7 +22,7 @@ describe("WeatherService Provider", () => {
 
     it("should get the current weather for the user's current location", () => {
         // arrange
-        var request = new CurrentWeatherRequest("-25.968280", "28.125952");
+        var request = new WeatherRequest("-25.968280", "28.125952");
 
         var response = {
             weather: [

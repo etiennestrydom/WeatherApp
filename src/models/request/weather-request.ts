@@ -1,4 +1,4 @@
-export class CurrentWeatherRequest {
+export class WeatherRequest {
     lat: string;
     lon: string;
 

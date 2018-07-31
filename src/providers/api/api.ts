@@ -1,4 +1,4 @@
-import { RequestOptions } from "./../../models/request-options";
+import { RequestOptions } from "../../models/request-options";
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "../../../node_modules/rxjs/Observable";
