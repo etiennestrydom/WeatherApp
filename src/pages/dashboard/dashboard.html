@@ -1,4 +1,7 @@
 <ion-content *ngIf="weatherSingle" [ngClass]="weatherSingle.friendlyName">
+    <ion-refresher (ionRefresh)="loadWeather($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <div class="text-over-img-wrapper">
         <h1>{{weatherSingle.main.temp}} &deg;</h1>
         <h2>{{weatherSingle.friendlyName}}</h2>
@@ -36,7 +39,7 @@
                             <img src="assets/icon/{{weatherSingle.friendlyName}}.png" width="25px">
                         </ion-col>
                         <ion-col text-right>
-                            <p>{{weatherSingle.main.temp}} &deg;</p>
+                            <p>{{weatherSingle.main.temp_max}} &deg;</p>
                         </ion-col>
                     </ion-row>
                 </ion-grid>

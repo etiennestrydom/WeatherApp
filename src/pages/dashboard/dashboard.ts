@@ -5,10 +5,12 @@ import { LoaderProvider } from "../../providers/loader/loader";
 import { WeatherSingle } from "../../models/weather-single";
 import { WeatherServiceProvider } from "../../providers/weather-service/weather-service";
 import { Component } from "@angular/core";
-import { IonicPage } from "ionic-angular";
+import { IonicPage, Refresher } from "ionic-angular";
 import { Settings } from "../../providers";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/finally";
+import { Geolocation } from "@ionic-native/geolocation";
+import { Observable } from "../../../node_modules/rxjs/Observable";
 
 @IonicPage()
 @Component({
@@ -19,26 +21,56 @@ export class DashboardPage {
     private _weatherServiceProvider: WeatherServiceProvider;
     private _loaderProvider: LoaderProvider;
     private _settings: Settings;
+    private _geolocation: Geolocation;
 
     public weatherSingle: WeatherSingle;
     public weatherForecastResponse: WeatherForecastResponse;
 
-    constructor(weatherServiceProvider: WeatherServiceProvider, loaderProvider: LoaderProvider, settings: Settings) {
+    constructor(
+        private weatherServiceProvider: WeatherServiceProvider,
+        private loaderProvider: LoaderProvider,
+        private settings: Settings,
+        private geolocation: Geolocation
+    ) {
         this._weatherServiceProvider = weatherServiceProvider;
         this._loaderProvider = loaderProvider;
         this._settings = settings;
+        this._geolocation = geolocation;
     }
 
     ionViewDidLoad() {
-        this._settings.getValue(APPID).then(appid => {
-            let weatherRequest = new WeatherRequest("1", "2", appid);
-
-            this.getWeatherForCurrentLocation(weatherRequest);
-            this.get5DayWeatherForecastForCurrentLocation(weatherRequest);
-        });
+        this.loadWeather(null);
     }
 
-    getWeatherForCurrentLocation(weatherRequest: WeatherRequest) {
+    private loadWeather(refresher: Refresher) {
+        let weatherRequest: WeatherRequest;
+        let showLoader = !refresher ? true : false;
+
+        this._loaderProvider
+            .presentLoader(showLoader)
+            .then(resp => {
+                return this._geolocation.getCurrentPosition();
+            })
+            .then(location => {
+                weatherRequest = new WeatherRequest(location.coords.latitude.toString(), location.coords.longitude.toString());
+
+                return this._settings.getValue(APPID);
+            })
+            .then(appid => {
+                weatherRequest.appid = appid;
+                this.getWeatherForCurrentLocation(weatherRequest);
+                this.get5DayWeatherForecastForCurrentLocation(weatherRequest);
+
+                if (refresher) refresher.complete();
+
+                return this._loaderProvider.dismissLoader(showLoader);
+            })
+            .catch(error => {
+                console.log("Error getting location", error);
+            });
+    }
+
+    private getWeatherForCurrentLocation(weatherRequest: WeatherRequest) {
         this._weatherServiceProvider
             .getCurrentWeather(weatherRequest)
             .do(() => {})
@@ -54,7 +86,7 @@ export class DashboardPage {
             );
     }
 
-    get5DayWeatherForecastForCurrentLocation(weatherRequest: WeatherRequest) {
+    private get5DayWeatherForecastForCurrentLocation(weatherRequest: WeatherRequest) {
         this._weatherServiceProvider
             .getWeatherForecast(weatherRequest)
             .do(() => {})

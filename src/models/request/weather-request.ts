@@ -6,7 +6,7 @@ export class WeatherRequest {
     units: string;
     appid: string;
 
-    constructor(lat: string, lon: string, appid: string) {
+    constructor(lat: string, lon: string, appid: string = null) {
         this.lat = lat;
         this.lon = lon;
         this.units = UNITS_METRIC;

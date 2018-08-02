@@ -8,14 +8,23 @@ export class LoaderProvider {
 
     constructor(loadingController: LoadingController) {
         this._loadingController = loadingController;
+    }
+
+    public presentLoader(showLoader: boolean = true) {
         this._loader = this._loadingController.create();
+
+        if (showLoader) {
+            return this._loader.present();
+        } else {
+            return Promise.resolve();
+        }
     }
 
-    public presentLoader() {
-        this._loader.present();
-    }
-
-    public dismissLoader() {
-        this._loader.dismiss();
+    public dismissLoader(showLoader: boolean = true) {
+        if (showLoader) {
+            return this._loader.dismiss();
+        } else {
+            return Promise.resolve();
+        }
     }
 }
