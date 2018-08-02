@@ -59,7 +59,6 @@ export function provideSettings(storage: Storage) {
         SplashScreen,
         StatusBar,
         { provide: Settings, useFactory: provideSettings, deps: [Storage] },
-        // Keep this to enable Ionic's runtime error handling during development
         { provide: ErrorHandler, useClass: IonicErrorHandler },
         WeatherServiceProvider,
         LoaderProvider

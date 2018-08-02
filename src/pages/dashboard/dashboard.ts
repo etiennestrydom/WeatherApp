@@ -18,16 +18,12 @@ import "rxjs/add/operator/finally";
 export class DashboardPage {
     private _weatherServiceProvider: WeatherServiceProvider;
     private _loaderProvider: LoaderProvider;
-    private _weatherForecastResponse: WeatherForecastResponse;
     private _settings: Settings;
 
     public weatherSingle: WeatherSingle;
+    public weatherForecastResponse: WeatherForecastResponse;
 
-    constructor(
-        weatherServiceProvider: WeatherServiceProvider,
-        loaderProvider: LoaderProvider,
-        settings: Settings
-    ) {
+    constructor(weatherServiceProvider: WeatherServiceProvider, loaderProvider: LoaderProvider, settings: Settings) {
         this._weatherServiceProvider = weatherServiceProvider;
         this._loaderProvider = loaderProvider;
         this._settings = settings;
@@ -48,7 +44,7 @@ export class DashboardPage {
             .do(() => {})
             .finally(() => {})
             .subscribe(
-                weatherSingle => {
+                (weatherSingle: WeatherSingle) => {
                     this.weatherSingle = weatherSingle;
                     console.log(this.weatherSingle);
                 },
@@ -64,9 +60,10 @@ export class DashboardPage {
             .do(() => {})
             .finally(() => {})
             .subscribe(
-                weatherForecastResponse => {
-                    this._weatherForecastResponse = weatherForecastResponse;
-                    console.log(this._weatherForecastResponse.list);
+                (weatherForecastResponse: WeatherForecastResponse) => {
+                    this.weatherForecastResponse = weatherForecastResponse;
+                    console.log(this.weatherForecastResponse.list);
+                    console.log(this.weatherForecastResponse.forecast);
                 },
                 error => {
                     console.log("This is an error: " + error.message);
