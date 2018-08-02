@@ -14,6 +14,12 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+@import url(//fonts.googleapis.com/css?family=Montserrat);
+
+* {
+    font-family: "Montserrat" !important;
+}
+
 h1 {
     font-size: 5em;
 }
@@ -23,6 +29,13 @@ h2 {
 h3 {
     text-transform: capitalize !important;
     font-size: 1em;
+}
+p {
+    font-size: 1em !important;
+}
+
+.bold {
+    font-weight: bold;
 }
 
 .transparent-bg {
