@@ -1,3 +1,4 @@
+import { APPID } from "./../constants/storage-keys";
 import { Component, ViewChild } from "@angular/core";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
@@ -36,7 +37,7 @@ export class MyApp {
     constructor(
         private translate: TranslateService,
         platform: Platform,
-        settings: Settings,
+        private _settings: Settings,
         private config: Config,
         private statusBar: StatusBar,
         private splashScreen: SplashScreen
@@ -46,6 +47,9 @@ export class MyApp {
             // Here you can do any higher level native things you might need.
             this.statusBar.styleDefault();
             this.splashScreen.hide();
+
+            // The appid can be set on login when a user has been succesfully authenticated
+            this.setAppid();
         });
         this.initTranslate();
     }
@@ -74,6 +78,11 @@ export class MyApp {
         this.translate.get(["BACK_BUTTON_TEXT"]).subscribe(values => {
             this.config.set("ios", "backButtonText", values.BACK_BUTTON_TEXT);
         });
+    }
+
+    // The appid can be set on login when a user has been succesfully authenticated
+    setAppid() {
+        this._settings.setValue(APPID, "8e9211eab8f6a01d008819003226a296");
     }
 
     openPage(page) {

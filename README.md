@@ -99,6 +99,38 @@ To change the language of the app, edit `src/app/app.component.ts` and modify
 
 To run this project, [install](https://ionicframework.com/docs/cli/) the latest version of the Ionic CLI and run:
 
+First run
+
 ```bash
 npm install
 ```
+
+Then run
+
+```bash
+ionic serve
+```
+
+## <a name="testing"></a>Testing
+
+Run unit tests:
+
+```bash
+npm test
+```
+
+Run unit and generate code coverage:
+
+```bash
+npm test-coverage
+```
+
+Run e2e tests:
+
+```bash
+npm e2e
+```
+
+## <a name="download-app"></a>Download the app
+
+https://github.com/etiennestrydom/WeatherApp/blob/dashboard-style-feature/android-apk/app-release.apk

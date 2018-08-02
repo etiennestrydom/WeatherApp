@@ -1,3 +1,8 @@
+import { GeolocationMock } from "./../../mocks/providers/geolocation-mock";
+import { Geolocation } from "@ionic-native/geolocation";
+import { LoaderMock } from "./../../mocks/providers/loader-mock";
+import { LoaderProvider } from "./../../providers/loader/loader";
+import { Settings } from "./../../providers/settings/settings";
 import { WeatherServiceMock } from "./../../mocks/providers/weather-service-mock";
 import { async, TestBed } from "../../../node_modules/@angular/core/testing";
 import { DashboardPage } from "./dashboard";
@@ -16,6 +21,18 @@ describe("DashboardPage Component", () => {
                 {
                     provide: WeatherServiceProvider,
                     useClass: WeatherServiceMock
+                },
+                {
+                    provide: LoaderProvider,
+                    useClass: LoaderMock
+                },
+                {
+                    provide: Settings,
+                    useClass: WeatherServiceMock
+                },
+                {
+                    provide: Geolocation,
+                    useClass: GeolocationMock
                 }
             ]
         });
