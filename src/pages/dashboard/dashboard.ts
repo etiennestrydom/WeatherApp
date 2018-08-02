@@ -1,16 +1,16 @@
+import { WeatherSingle } from "./../../models/weather-single";
 import { WeatherRequest } from "./../../models/request/weather-request";
 import { APPID } from "./../../constants/storage-keys";
 import { WeatherForecastResponse } from "./../../models/response/weather-forecast-response";
 import { LoaderProvider } from "../../providers/loader/loader";
-import { WeatherSingle } from "../../models/weather-single";
 import { WeatherServiceProvider } from "../../providers/weather-service/weather-service";
 import { Component } from "@angular/core";
 import { IonicPage, Refresher } from "ionic-angular";
 import { Settings } from "../../providers";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/finally";
+import "rxjs/add/operator/toPromise";
 import { Geolocation } from "@ionic-native/geolocation";
-import { Observable } from "../../../node_modules/rxjs/Observable";
 
 @IonicPage()
 @Component({
@@ -25,6 +25,7 @@ export class DashboardPage {
 
     public weatherSingle: WeatherSingle;
     public weatherForecastResponse: WeatherForecastResponse;
+    public isBusy: boolean;
 
     constructor(
         private weatherServiceProvider: WeatherServiceProvider,
@@ -49,57 +50,43 @@ export class DashboardPage {
         this._loaderProvider
             .presentLoader(showLoader)
             .then(resp => {
+                this.isBusy = true;
                 return this._geolocation.getCurrentPosition();
             })
             .then(location => {
                 weatherRequest = new WeatherRequest(location.coords.latitude.toString(), location.coords.longitude.toString());
-
                 return this._settings.getValue(APPID);
             })
             .then(appid => {
                 weatherRequest.appid = appid;
-                this.getWeatherForCurrentLocation(weatherRequest);
-                this.get5DayWeatherForecastForCurrentLocation(weatherRequest);
-
-                if (refresher) refresher.complete();
-
-                return this._loaderProvider.dismissLoader(showLoader);
+                return this.getWeatherForCurrentLocation(weatherRequest);
+            })
+            .then((weatherSingle: WeatherSingle) => {
+                this.weatherSingle = weatherSingle;
+                return this.get5DayWeatherForecastForCurrentLocation(weatherRequest);
+            })
+            .then(weatherForecastResponse => {
+                this.weatherForecastResponse = weatherForecastResponse;
             })
             .catch(error => {
                 console.log("Error getting location", error);
+            })
+            .then(() => {
+                this.isBusy = false;
+
+                if (refresher) {
+                    refresher.complete();
+                }
+
+                return this._loaderProvider.dismissLoader(showLoader);
             });
     }
 
-    private getWeatherForCurrentLocation(weatherRequest: WeatherRequest) {
-        this._weatherServiceProvider
-            .getCurrentWeather(weatherRequest)
-            .do(() => {})
-            .finally(() => {})
-            .subscribe(
-                (weatherSingle: WeatherSingle) => {
-                    this.weatherSingle = weatherSingle;
-                    console.log(this.weatherSingle);
-                },
-                error => {
-                    console.log("This is an error: " + error.message);
-                }
-            );
+    private getWeatherForCurrentLocation(weatherRequest: WeatherRequest): Promise<WeatherSingle> {
+        return this._weatherServiceProvider.getCurrentWeather(weatherRequest).toPromise();
     }
 
-    private get5DayWeatherForecastForCurrentLocation(weatherRequest: WeatherRequest) {
-        this._weatherServiceProvider
-            .getWeatherForecast(weatherRequest)
-            .do(() => {})
-            .finally(() => {})
-            .subscribe(
-                (weatherForecastResponse: WeatherForecastResponse) => {
-                    this.weatherForecastResponse = weatherForecastResponse;
-                    console.log(this.weatherForecastResponse.list);
-                    console.log(this.weatherForecastResponse.forecast);
-                },
-                error => {
-                    console.log("This is an error: " + error.message);
-                }
-            );
+    private get5DayWeatherForecastForCurrentLocation(weatherRequest: WeatherRequest): Promise<WeatherForecastResponse> {
+        return this._weatherServiceProvider.getWeatherForecast(weatherRequest).toPromise();
     }
 }

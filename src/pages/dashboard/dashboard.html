@@ -1,49 +1,57 @@
-<ion-content *ngIf="weatherSingle" [ngClass]="weatherSingle.friendlyName">
+<ion-content>
     <ion-refresher (ionRefresh)="loadWeather($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <div class="text-over-img-wrapper">
-        <h1>{{weatherSingle.main.temp}} &deg;</h1>
-        <h2>{{weatherSingle.friendlyName}}</h2>
-        <img src="assets/img/{{weatherSingle.friendlyName}}.png" width="100%">
+    <div *ngIf="!isBusy && !weatherSingle" class="sunny" style="height: 1000px;">
+        <div class="text-over-img-wrapper">
+            <h3>Content failed to load. Pull to refresh</h3>
+            <img src="assets/img/sunny.png" width="100%">
+        </div>
     </div>
-    <div>
-        <ion-item class="transparent-bg border-bottom" no-lines>
-            <ion-grid>
-                <ion-row>
-                    <ion-col text-left>
-                        <p>{{weatherSingle.main.temp_min}} &deg;
-                            <br> min</p>
-                    </ion-col>
-                    <ion-col text-center>
-                        <p>{{weatherSingle.main.temp}} &deg;
-                            <br> Current</p>
-                    </ion-col>
-                    <ion-col text-right>
-                        <p>{{weatherSingle.main.temp_max}} &deg;
-                            <br> max</p>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-item>
-    </div>
-    <div *ngIf="weatherForecastResponse" class="page-content-margin">
-        <ion-list *ngFor="let weatherSingle of weatherForecastResponse.forecast">
-            <ion-item class="transparent-bg">
+    <div *ngIf="weatherSingle" [ngClass]="weatherSingle.friendlyName">
+        <div class="text-over-img-wrapper">
+            <h1>{{weatherSingle.main.temp}} &deg;</h1>
+            <h2>{{weatherSingle.friendlyName}}</h2>
+            <img src="assets/img/{{weatherSingle.friendlyName}}.png" width="100%">
+        </div>
+        <div>
+            <ion-item class="transparent-bg border-bottom" no-lines>
                 <ion-grid>
                     <ion-row>
                         <ion-col text-left>
-                            <p>{{weatherSingle.dayOfWeek}}</p>
+                            <p>{{weatherSingle.main.temp_min}} &deg;
+                                <br> min</p>
                         </ion-col>
                         <ion-col text-center>
-                            <img src="assets/icon/{{weatherSingle.friendlyName}}.png" width="25px">
+                            <p>{{weatherSingle.main.temp}} &deg;
+                                <br> Current</p>
                         </ion-col>
                         <ion-col text-right>
-                            <p>{{weatherSingle.main.temp_max}} &deg;</p>
+                            <p>{{weatherSingle.main.temp_max}} &deg;
+                                <br> max</p>
                         </ion-col>
                     </ion-row>
                 </ion-grid>
             </ion-item>
-        </ion-list>
+        </div>
+        <div *ngIf="weatherForecastResponse" class="page-content-margin">
+            <ion-list *ngFor="let weatherSingle of weatherForecastResponse.forecast">
+                <ion-item class="transparent-bg">
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col text-left>
+                                <p>{{weatherSingle.dayOfWeek}}</p>
+                            </ion-col>
+                            <ion-col text-center>
+                                <img src="assets/icon/{{weatherSingle.friendlyName}}.png" width="25px">
+                            </ion-col>
+                            <ion-col text-right>
+                                <p>{{weatherSingle.main.temp_max}} &deg;</p>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-item>
+            </ion-list>
+        </div>
     </div>
 </ion-content>

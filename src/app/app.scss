@@ -20,6 +20,10 @@ h1 {
 h2 {
     font-size: 2em;
 }
+h3 {
+    text-transform: capitalize !important;
+    font-size: 1em;
+}
 
 .transparent-bg {
     background-color: transparent;
@@ -59,6 +63,22 @@ div.text-over-img-wrapper h2:before {
     display: inline-block;
     vertical-align: middle;
     height: 110%;
+    content: "";
+}
+
+div.text-over-img-wrapper h3 {
+    color: white;
+    text-transform: uppercase;
+    position: absolute;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+}
+
+div.text-over-img-wrapper h3:before {
+    display: inline-block;
+    vertical-align: middle;
+    height: 20%;
     content: "";
 }
 

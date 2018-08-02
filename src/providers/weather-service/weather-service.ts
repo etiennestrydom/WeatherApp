@@ -45,7 +45,7 @@ export class WeatherServiceProvider {
         let startDate = weatherForecastResponseList[0];
 
         for (let index = 0; index < weatherForecastResponseList.length; index++) {
-            if (startDate.date.getDay() != weatherForecastResponseList[index].date.getDay()) {
+            if (startDate.date.getDay() != weatherForecastResponseList[index].date.getDay() && weatherForecastResponseList[index].date.getHours() > 12) {
                 forecastList.push(weatherForecastResponseList[index]);
                 startDate.date.setDate(startDate.date.getDate() + 1);
                 console.log("Startdate: " + startDate.date.getDay());
