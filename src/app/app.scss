@@ -1,6 +1,5 @@
 // http://ionicframework.com/docs/v2/theming/
 
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -14,3 +13,112 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+@import url(//fonts.googleapis.com/css?family=Montserrat);
+
+* {
+    font-family: "Montserrat" !important;
+}
+
+h1 {
+    font-size: 5em;
+}
+h2 {
+    font-size: 2em;
+}
+h3 {
+    text-transform: capitalize !important;
+    font-size: 1em;
+}
+p {
+    font-size: 1em !important;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.transparent-bg {
+    background-color: transparent;
+}
+
+div.text-over-img-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+div.text-over-img-wrapper h1 {
+    color: white;
+    position: absolute;
+    text-align: center;
+    height: 68%;
+    width: 100%;
+}
+
+div.text-over-img-wrapper h1:before {
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+    content: "";
+}
+
+div.text-over-img-wrapper h2 {
+    color: white;
+    text-transform: uppercase;
+    position: absolute;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+}
+
+div.text-over-img-wrapper h2:before {
+    display: inline-block;
+    vertical-align: middle;
+    height: 110%;
+    content: "";
+}
+
+div.text-over-img-wrapper h3 {
+    color: white;
+    text-transform: uppercase;
+    position: absolute;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+}
+
+div.text-over-img-wrapper h3:before {
+    display: inline-block;
+    vertical-align: middle;
+    height: 20%;
+    content: "";
+}
+
+.page-content-margin {
+    margin-top: 30px;
+}
+
+.border-bottom {
+    border-bottom: 1px solid white !important;
+}
+
+ion-list {
+    margin-bottom: 0 !important;
+}
+
+ion-label {
+    margin: 0 !important;
+}
+
+.sunny {
+    background-color: color($colors, sunny);
+}
+
+.cloudy {
+    background-color: color($colors, cloudy);
+}
+
+.rainy {
+    background-color: color($colors, rainy);
+}
