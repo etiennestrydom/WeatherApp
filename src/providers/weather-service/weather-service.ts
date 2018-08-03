@@ -48,8 +48,14 @@ export class WeatherServiceProvider {
             if (startDate.date.getDay() != weatherForecastResponseList[index].date.getDay() && weatherForecastResponseList[index].date.getHours() > 12) {
                 forecastList.push(weatherForecastResponseList[index]);
                 startDate.date.setDate(startDate.date.getDate() + 1);
-                console.log("Startdate: " + startDate.date.getDay());
             }
+        }
+
+        if (
+            forecastList.length < 5 &&
+            forecastList[forecastList.length - 1].date.getDay() != weatherForecastResponseList[weatherForecastResponseList.length - 1].date.getDay()
+        ) {
+            forecastList.push(weatherForecastResponseList[weatherForecastResponseList.length - 1]);
         }
 
         return forecastList;
