@@ -134,3 +134,13 @@ npm e2e
 ## <a name="download-app"></a>Download the app
 
 https://github.com/etiennestrydom/WeatherApp/blob/dashboard-style-feature/android-apk/app-release.apk
+
+## <a name="download-app"></a>Building for release
+
+Android:
+
+```bash
+ionic cordova build android --release
+```
+
+this will automatically sign the app using the config file in ./platforms/release-signing.properties
